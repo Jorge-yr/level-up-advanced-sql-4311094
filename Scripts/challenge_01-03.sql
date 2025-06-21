@@ -1,14 +1,13 @@
 SELECT cstm.firstName, cstm.lastName, cstm.customerId,
-      COUNT(vt.salesId) AS salesCount, SUM(vt.salesAmount) AS totalSales
+      vt.salesId AS sales, vt.salesAmount AS totalSales
 FROM customer cstm
 LEFT JOIN sales vt
-      ON cstm.customerId = vt.customerId
-GROUP BY cstm.firstName, cstm.lastName, cstm.customerId
-ORDER BY salesCount;
+      ON cstm.customerId = vt.customerId;
+
 UNION
 -- UNION with sales that have no associated customer
 SELECT cstm.firstName, cstm.lastName, cstm.customerId,
-      COUNT(vt.salesId) AS salesCount, SUM(vt.salesAmount) AS totalSales
+      vt.salesId AS sales, vt.salesAmount AS totalSales
 FROM sales vt
 LEFT JOIN customer cstm
       ON vt.customerId = cstm.customerId
